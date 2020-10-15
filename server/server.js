@@ -14,7 +14,6 @@ mongoose.connect(MONGO_URI, {useNewUrlParser: true})
         .catch(err => console.log(err));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-
 app.use(
   session({
     secret: "not doing this fast enough",
