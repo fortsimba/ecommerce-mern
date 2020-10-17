@@ -1,3 +1,7 @@
+[IMPORTANT]  React-bootstrap is its own library, bootstrap components should be imported from there instead of html classes
+[IMPORTANT]  Formatting for Landing page needs to be fixed
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

@@ -32,11 +32,12 @@ const SignUpLoginForm = () => {
                 localStorage.setItem('token',res.data.success.split(" ")[2]);
                 localStorage.setItem('name',email);
                 alert("Logged in "+localStorage.getItem('token')+" succesfully!");
+                window.location.reload(false);
             })
             .catch(err => {
                 console.log(err);
                 console.log(err.response);
-                alert("Unable to login: "+err.response);
+                alert("Unable to login - incorrect username or password!");
             });
     };
 
