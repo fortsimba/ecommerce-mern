@@ -9,6 +9,7 @@ import UpdateProfile from "./components/layout/UpdateProfile";
 import Landing from "./components/layout/Landing";
 import Nav from "./components/layout/Nav";
 import Footer from "./components/layout/Footer";
+import Details from  "./components/layout/Details"
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 if(!localStorage.getItem("token")){
@@ -28,6 +29,7 @@ const App = () => {
                 <Route exact path="/about">
                     <About />
                 </Route>
+                <Route  path="/:id" component={Details} />
                 <Route exact path="/landing">
                     <Landing />
                 </Route>
