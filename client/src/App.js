@@ -5,6 +5,7 @@ import Products from "./components/layout/Products";
 import Filter from "./components/layout/Filter";
 import Profile from "./components/layout/Profile";
 import About from "./components/layout/About";
+import UpdateProfile from "./components/layout/UpdateProfile";
 import Landing from "./components/layout/Landing";
 import Nav from "./components/layout/Nav";
 import Footer from "./components/layout/Footer";
@@ -20,7 +21,7 @@ const App = () => {
             <div className="App">
                 <Nav />
                 <Route exact path="/">
-                    <Landing />
+                    <Profile />
                 </Route>
                 <Route exact path="/profile">
                     <Profile />
@@ -29,6 +30,12 @@ const App = () => {
                     <About />
                 </Route>
                 <Route  path="/:id" component={Details} />
+                <Route exact path="/landing">
+                    <Landing />
+                </Route>
+                <Route exact path="/update_profile">
+                    <UpdateProfile />
+                </Route>
                 <Footer />
             </div>
         </Router>

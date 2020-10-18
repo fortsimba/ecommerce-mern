@@ -15,10 +15,41 @@ const ThirdParty = new mongoose.Schema({
   }
 })
 
+const Address = new mongoose.Schema({
+  line1: {
+    type: String,
+    default: null
+  },
+  line2: {
+    type: String,
+    default: null
+  },
+  city: {
+    type: String,
+    default: null
+  },
+  state: {
+    type: String,
+    default: null
+  },
+  country: {
+    type: String,
+    default: null
+  },
+  pincode: {
+    type: String,
+    default: null
+  },
+})
+
 const UserSchema = new mongoose.Schema({
   name: {
     type: String
   },
+  phone: {
+    type: String
+  },
+  address: [Address],
   email:{
     type: String,
     required: true,
