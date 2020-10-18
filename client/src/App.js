@@ -8,6 +8,7 @@ import About from "./components/layout/About";
 import Landing from "./components/layout/Landing";
 import Nav from "./components/layout/Nav";
 import Footer from "./components/layout/Footer";
+import Details from  "./components/layout/Details"
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 if(!localStorage.getItem("token")){
@@ -27,6 +28,7 @@ const App = () => {
                 <Route exact path="/about">
                     <About />
                 </Route>
+                <Route  path="/:id" component={Details} />
                 <Footer />
             </div>
         </Router>

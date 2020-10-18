@@ -1,21 +1,23 @@
 import React, { Component } from "react";
 import currency from "../../data/currency";
+import { Link } from 'react-router-dom';
 
 export default class Products extends Component {
   render() {
     const productItems = this.props.products.map((product) => (
       <div className="col-md-3" key={product["Uniq Id"]}>
         <div className="thumbnail text-center">
-          <a
-            href={`#${product["Uniq id"]}`}
-            onClick={(e) => this.props.handleAddToCard(e, product)}
-          >
-            <img
-              src={`${product["Product Image Url"]}`}
-              alt={product["Product Name"]}
-            ></img>
-            <p>{product["Product Name"]}</p>
-          </a>
+            
+            <div> 
+            <Link to={`${product["Uniq Id"]}`} >
+              <img
+                src={`${product["Product Image Url"]}`}
+                alt={product["Product Name"]}
+              ></img>
+              <p>{product["Product Name"]}</p>
+            </Link>
+            </div>
+
           <div>
             <b>{currency.formatCurrency(product["Product Price"])}</b>
             <button
@@ -25,7 +27,7 @@ export default class Products extends Component {
               Add To Cart
             </button>
             <img
-              height="60"
+              height="50"
               className="btn btn-display"
               onClick={(e) => this.props.handleAddToWishlist(e, product)}
               src="https://www.flaticon.com/svg/static/icons/svg/865/865904.svg"
