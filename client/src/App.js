@@ -21,7 +21,7 @@ const App = () => {
             <div className="App">
                 <Nav />
                 <Route exact path="/">
-                    <Profile />
+                    <Landing />
                 </Route>
                 <Route exact path="/profile">
                     <Profile />
@@ -29,7 +29,7 @@ const App = () => {
                 <Route exact path="/about">
                     <About />
                 </Route>
-                <Route  path="/:id" component={Details} />
+                <Route  path="/product/:id" component={Details} />
                 <Route exact path="/landing">
                     <Landing />
                 </Route>

@@ -6,6 +6,7 @@ const MongoStore = require("connect-mongo")(session);
 const mongoose = require("mongoose");
 const passport = require("./passport/setup");
 const auth = require("./routes/auth");
+const profile = require("./routes/profile");
 const assert = require("assert");
 var fs = require('fs');
 var mongojs = require('mongojs');
@@ -77,6 +78,7 @@ app.get("/api/profile_import", function(req, res){
   //       });
   //   });
 });
+app.use("/api/profile_update", profile);
 app.get("/", (req, res) => res.send("Hello World!"));
 
 app.listen(PORT, () => console.log(`Backend listening on port ${PORT}!\n\n\n\n\n\n\n`));

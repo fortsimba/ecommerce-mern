@@ -15,7 +15,13 @@ const ThirdParty = new mongoose.Schema({
   }
 })
 
-const Address = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
+  name: {
+    type: String
+  },
+  phone: {
+    type: String
+  },
   line1: {
     type: String,
     default: null
@@ -40,16 +46,6 @@ const Address = new mongoose.Schema({
     type: String,
     default: null
   },
-})
-
-const UserSchema = new mongoose.Schema({
-  name: {
-    type: String
-  },
-  phone: {
-    type: String
-  },
-  address: [Address],
   email:{
     type: String,
     required: true,
@@ -66,7 +62,10 @@ const UserSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+  orders: [String],
+  wishlist: [String],
+  cart: [String]
 },
 { strict: false}
 );

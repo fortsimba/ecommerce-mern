@@ -7,9 +7,9 @@ export default class Products extends Component {
     const productItems = this.props.products.map((product) => (
       <div className="col-md-3" key={product["Uniq Id"]}>
         <div className="thumbnail text-center">
-            
-            <div> 
-            <Link to={`${product["Uniq Id"]}`} >
+
+            <div>
+            <Link to={`/product/${product["Uniq Id"]}`} >
               <img
                 src={`${product["Product Image Url"]}`}
                 alt={product["Product Name"]}

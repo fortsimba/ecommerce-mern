@@ -24,7 +24,6 @@ const SignUpLoginForm = () => {
             email,
             password
         };
-        console.log(userData);
         axios
             .post("/api/auth/register_login", userData)
             .then(res => {
