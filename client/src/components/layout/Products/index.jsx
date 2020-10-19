@@ -1,8 +1,31 @@
 import React, { Component } from "react";
 import currency from "../../data/currency";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
+const user = localStorage.getItem('token');
 export default class Products extends Component {
+  constructor(props){
+    super(props);
+    this.addCart = this.addCart.bind(this);
+    this.addWishlist = this.addWishlist.bind(this);
+  }
+  addCart(product){
+      var mode = "add";
+      axios.post("/api/cart", {mode,user,product}).then(res => {
+          alert("Item added to cart!");
+      }).catch(err =>{
+        console.log(err);
+      });
+  }
+  addWishlist(product){
+    var mode = "add";
+    axios.post("/api/wishlist", {mode,user,product}).then(res => {
+        alert("Item added to wishlist!");
+    }).catch(err =>{
+      console.log(err);
+    });
+  }
   render() {
     const productItems = this.props.products.map((product) => (
       <div className="col-md-3" key={product["Uniq Id"]}>
@@ -22,14 +45,14 @@ export default class Products extends Component {
             <b>{currency.formatCurrency(product["Product Price"])}</b>
             <button
               className="btn btn-info"
-              onClick={(e) => this.props.handleAddToCard(e, product)}
+              onClick={() => this.addCart(product["Uniq Id"])}
             >
               Add To Cart
             </button>
             <img
               height="50"
               className="btn btn-display"
-              onClick={(e) => this.props.handleAddToWishlist(e, product)}
+              onClick={() => this.addWishlist(product["Uniq Id"])}
               src="https://www.flaticon.com/svg/static/icons/svg/865/865904.svg"
             ></img>
           </div>

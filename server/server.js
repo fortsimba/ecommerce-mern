@@ -79,6 +79,69 @@ app.get("/api/profile_import", function(req, res){
   //   });
 });
 app.use("/api/profile_update", profile);
+
+
+app.route("/api/cart").post((req,res,next) => {
+    if(req.body.mode=="add"){
+      dbjs.users.update({_id:mongojs.ObjectId(req.body.user)}, {$push: {'cart':req.body.product}});
+    }
+    else{
+      dbjs.users.update({_id:mongojs.ObjectId(req.body.user)}, {$set: {'cart':[]}});
+      for(var i=0;i<req.body.arr.length;i++){
+        dbjs.users.update({_id:mongojs.ObjectId(req.body.user)}, {$push: {'cart':req.body.arr[i]}});
+      }
+    }
+    dbjs.on('error', function(err){
+      return res.status(400).json({errors:"Database error! Records not updated"})
+    })
+    return res.status(200).json({success:"Succesfully updated records!"})
+}).get((req,res) => {
+  dbjs.users.findOne({_id: mongojs.ObjectId(req.query.uid)}, async function(err, docs){
+    if(err) throw err;
+    await res.json(docs.cart);
+  });
+})
+
+
+app.route("/api/wishlist").post((req,res,next) => {
+  if(req.body.mode=="add"){
+    dbjs.users.update({_id:mongojs.ObjectId(req.body.user)}, {$push: {'wishlist':req.body.product}});
+  }
+  else{
+    dbjs.users.update({_id:mongojs.ObjectId(req.body.user)}, {$set: {'wishlist':[]}});
+    for(var i=0;i<req.body.arr.length;i++){
+      dbjs.users.update({_id:mongojs.ObjectId(req.body.user)}, {$push: {'wishlist':req.body.arr[i]}});
+    }
+  }
+  dbjs.on('error', function(err){
+    return res.status(400).json({errors:"Database error! Records not updated"})
+  })
+  return res.status(200).json({success:"Succesfully updated records!"})
+}).get((req,res) => {
+  dbjs.users.findOne({_id: mongojs.ObjectId(req.query.uid)}, async function(err, docs){
+    if(err) throw err;
+    await res.json(docs.wishlist);
+  });
+})
+
+
+app.route("/api/orders").post((req,res,next) => {
+  for(var i=0;i<req.body.arr.length;i++){
+    dbjs.users.update({_id:mongojs.ObjectId(req.body.user)}, {$push: {'orders':req.body.arr[i]}});
+  }
+  dbjs.on('error', function(err){
+    return res.status(400).json({errors:"Database error! Records not updated"})
+  })
+  return res.status(200).json({success:"Succesfully updated records!"})
+}).get((req,res) => {
+  dbjs.users.findOne({_id: mongojs.ObjectId(req.query.uid)}, async function(err, docs){
+    if(err) throw err;
+    await res.json(docs.orders);
+  });
+})
+
+
+
 app.get("/", (req, res) => res.send("Hello World!"));
 
 app.listen(PORT, () => console.log(`Backend listening on port ${PORT}!\n\n\n\n\n\n\n`));

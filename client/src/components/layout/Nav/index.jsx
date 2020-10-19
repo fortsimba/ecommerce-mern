@@ -1,27 +1,33 @@
 import React, {useState} from "react";
 import { StyledNav } from "./styles";
 import SignupLoginModal from '../SignupLoginModal';
-import { Row } from "react-bootstrap";
 import {LoginButton} from "./styles";
+import {NavDropdown} from "react-bootstrap";
 
 const Nav = () => {
     const [show, setShow] = useState(false);
+    const Dropdown = () => (
+      <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+        <NavDropdown.Item href="/profile">My profile</NavDropdown.Item>
+        <NavDropdown.Item href="/wishlist">Wishlist</NavDropdown.Item>
+        <NavDropdown.Item href="/orders">Orders</NavDropdown.Item>
+        <NavDropdown.Divider />
+        <NavDropdown.Item onClick={() => {localStorage.setItem('token', "");window.location.reload(false);}}>Logout</NavDropdown.Item>
+      </NavDropdown>
+    )
     return (
         <StyledNav>
-            <StyledNav.Brand className="ml-auto" href="/">
+            <LoginButton size="lg" className="mr-auto" href="/landing">View Products</LoginButton>
+            <StyledNav.Brand className="mr-auto" href="/">
                 <h1>EYEKEA</h1>
                 <p>We prioritize your comfort.</p>
             </StyledNav.Brand>
+            <LoginButton size="lg" className="ml-auto" href="/cart">Cart</LoginButton>
               {(() => {
                   if(localStorage.getItem("token")==="") {
-                   return <LoginButton className="ml-auto" size="lg" onClick={() => {
-                      setShow(true)
-                   }}>Login/Signup{" "}</LoginButton>;
+                   return <LoginButton className="ml-auto" size="lg" onClick={() => {setShow(true)}}>Login/Signup{" "}</LoginButton>;
                  } else {
-                   return <LoginButton className="ml-auto" size="lg" onClick={() => {
-                     localStorage.setItem('token', "");
-                     window.location.reload(false);}
-                   }>Logout {localStorage.getItem('token')}</LoginButton>;
+                   return <Dropdown className="ml-auto" />;
                  }
               })()}
             <SignupLoginModal show={show} setShow={setShow} />

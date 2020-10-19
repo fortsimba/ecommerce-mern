@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import { match , Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import currency from "../../data/currency";
 import axios from 'axios';
 
+const user = localStorage.getItem('token');
 export default class Details extends Component {
     constructor(props){
         super(props);
         this.state = { products : [] , prod : null }
+        this.addCart = this.addCart.bind(this);
+        this.addWishlist = this.addWishlist.bind(this);
     }
     componentWillMount(){
         axios.get("/api/products_import").then( (res) =>
@@ -15,7 +18,23 @@ export default class Details extends Component {
                 })
         )
     }
-
+    addCart(product){
+        var mode = "add";
+        console.log(product);
+        axios.post("/api/cart", {mode,user,product}).then(res => {
+            alert("Item added to cart!");
+        }).catch(err =>{
+          console.log(err);
+        });
+    }
+    addWishlist(product){
+      var mode = "add";
+      axios.post("/api/wishlist", {mode,user,product}).then(res => {
+          alert("Item added to wishlist!");
+      }).catch(err =>{
+        console.log(err);
+      });
+    }
     render() {
         const item =  this.props.match.params.id;
         const arr  = this.state.products
@@ -27,9 +46,8 @@ export default class Details extends Component {
                 break;
                }
         }
-        console.log(prod)
         return (
-            prod == null 
+            prod == null
             ?
             <div>
                 <Link to="/">Back to catalogue</Link>
@@ -49,25 +67,25 @@ export default class Details extends Component {
                     <p>{prod["Product Description"]}</p>
 
                     <h6> What does it contain?</h6>
-                    <p>{prod["Product Contents"]}</p>                
-                
+                    <p>{prod["Product Contents"]}</p>
+
                     <b>{currency.formatCurrency(prod["Product Price"])}</b>
                     <button
                     className="btn btn-info"
-                    onClick={null}
+                    onClick={() => this.addCart(prod["Uniq Id"])}
                     >
                     Add To Cart
                     </button>
-                    
+
                     <img
                     height="50"
                     className="btn btn-display"
-                    onClick={null}
+                    onClick={() => this.addWishlist(prod["Uniq Id"])}
                     src="https://www.flaticon.com/svg/static/icons/svg/865/865904.svg"
                     ></img>
                     </div>
             </div>
-        
+
         )
     }
 }

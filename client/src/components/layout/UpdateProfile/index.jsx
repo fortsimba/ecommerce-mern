@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
-import { match , Link } from "react-router-dom";
-import currency from "../../data/currency";
 import axios from 'axios';
 
-const user = localStorage.getItem('token')
+const user = localStorage.getItem('token');
 export default class Details extends Component {
     constructor(props){
         super(props);
@@ -20,7 +18,7 @@ export default class Details extends Component {
             }
         )
     }
-    onChange =(event) =>{
+    onChange(event){
       switch(event.target.id){
         case("name"):this.setState({name: event.target.value});break;
         case("phone"):this.setState({phone: event.target.value});break;
