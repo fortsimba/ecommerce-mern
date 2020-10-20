@@ -12,6 +12,10 @@ export default class Products extends Component {
   }
   addCart(product){
       var mode = "add";
+      if(user==''){
+        alert('Please login before adding products to cart!');
+        return;
+      }
       axios.post("/api/cart", {mode,user,product}).then(res => {
           alert("Item added to cart!");
       }).catch(err =>{
@@ -19,6 +23,10 @@ export default class Products extends Component {
       });
   }
   addWishlist(product){
+    if(user==''){
+      alert('Please login before adding products to wishlist!');
+      return;
+    }
     var mode = "add";
     axios.post("/api/wishlist", {mode,user,product}).then(res => {
         alert("Item added to wishlist!");

@@ -19,6 +19,10 @@ export default class Details extends Component {
         )
     }
     addCart(product){
+        if(user==''){
+          alert('Please login before adding products to cart!');
+          return;
+        }
         var mode = "add";
         console.log(product);
         axios.post("/api/cart", {mode,user,product}).then(res => {
@@ -28,6 +32,10 @@ export default class Details extends Component {
         });
     }
     addWishlist(product){
+      if(user==''){
+        alert('Please login before adding products to wishlist!');
+        return;
+      }
       var mode = "add";
       axios.post("/api/wishlist", {mode,user,product}).then(res => {
           alert("Item added to wishlist!");
