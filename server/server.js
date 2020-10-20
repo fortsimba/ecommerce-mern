@@ -20,7 +20,7 @@ mongoose.connect(MONGO_URI, {useNewUrlParser: true})
         .catch(err => console.log(err));
 
 
-        
+
 //insert products to mongodb if they are not already present
 dbjs.products.find(function(err, docs){
     if(!docs.length){
@@ -142,17 +142,12 @@ app.route("/api/details").post((req , res ) => {
           })
         return res.status(200).json({success:"Succesfully updated records!"})
 
-  }).get(( req , res ) => {
-    var dt =[]
-    var crs = dbjs.commnts.find( {'_id': req.query._id} ); 
-      crs.forEach(function (doc,err){
-      assert.equal(null,err);
-      dt.push(doc) 
-      }) 
-    }
-    ).then(res.json(dt)) 
-
-
+  }).get(function( req , res ) {
+    dbjs.comments.find({_id: req.query._id}, async function(err, docs){
+      if(err) throw err;
+      await res.json(docs);
+    });
+  })
 
 app.route("/api/orders").post((req,res,next) => {
   for(var i=0;i<req.body.arr.length;i++){

@@ -25,7 +25,7 @@ export default class Details extends Component {
             _id : prod_id }}
         ).then(
             (res) => {this.setState({
-                comments : res.data});
+                comments : res.data[0]});
                 console.log(this.state.comments)}
         )
     }
@@ -38,7 +38,7 @@ export default class Details extends Component {
           console.log(err);
         });
     }
-    
+
 
     submit(product){
         var inp_name = document.getElementById('name').value
@@ -73,17 +73,17 @@ export default class Details extends Component {
                 break;
                }
         }
-        
+
         return (
             prod == null
             ?
             <div>
-                
+
                 <h3>This product is not avaiable </h3>
             </div>
             :
             <div>
-                
+
                     <div>
                     <img
                     src={`${prod["Product Image Url"]}`}
@@ -113,13 +113,13 @@ export default class Details extends Component {
                     ></img>
                     <br/>
                     <br/>
-                    </div> 
+                    </div>
 
                     <div>
                         <form method ="get" action="" name="commentbox">
 
                             <label for="name">Your Name:</label> <br/>
-                            <input type="text" id="name" name="name" required/> <br/> 
+                            <input type="text" id="name" name="name" required/> <br/>
                             <br/>
 
                             <label for="rating" > Rate our products:  </label>
