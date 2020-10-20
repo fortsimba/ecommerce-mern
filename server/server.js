@@ -46,7 +46,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-Products = mongoose.model('products', { id: { type: String} });
+// Products = mongoose.model('products', { id: { type: String} });
 app.use("/api/auth", auth);
 app.get("/api/products_import", function(req, res){
   dbjs.products.findOne({},async function(err, docs){

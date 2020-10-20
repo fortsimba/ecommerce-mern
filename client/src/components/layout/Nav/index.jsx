@@ -3,6 +3,7 @@ import { StyledNav } from "./styles";
 import SignupLoginModal from '../SignupLoginModal';
 import {LoginButton} from "./styles";
 import {NavDropdown} from "react-bootstrap";
+import axios from "axios"
 
 const Nav = () => {
     const [show, setShow] = useState(false);
@@ -12,7 +13,7 @@ const Nav = () => {
         <NavDropdown.Item href="/wishlist">Wishlist</NavDropdown.Item>
         <NavDropdown.Item href="/orders">Orders</NavDropdown.Item>
         <NavDropdown.Divider />
-        <NavDropdown.Item onClick={() => {localStorage.setItem('token', "");window.location.reload(false);}}>Logout</NavDropdown.Item>
+        <NavDropdown.Item onClick={() => {localStorage.setItem('token', "");axios.get("/api/auth/logout").catch(err => console.log(err)); window.location.reload(false);}}>Logout</NavDropdown.Item>
       </NavDropdown>
     )
     return (

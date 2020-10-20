@@ -58,7 +58,9 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String
   },
-  thid_party_auth: [ThirdParty],
+  thid_party_auth: {
+    type: String
+  },
   date: {
     type: Date,
     default: Date.now

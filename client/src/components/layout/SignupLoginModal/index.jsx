@@ -78,21 +78,6 @@ const SignUpLoginForm = () => {
                     </Col>
                 </Row>
             </Form.Group>
-            <Form.Group controlId="formBasicCheckbox">
-                <Row>
-                    <Col xs="2" sm="1">
-                        <Form.Check type="checkbox" />
-                    </Col>
-                    <Col xs="10" sm="11">
-                        <Form.Label>
-                            <MutedSpan>
-                                I hereby confirm that the referral app is allowed to send me emails, up until I
-                                unsuscribe
-                            </MutedSpan>
-                        </Form.Label>
-                    </Col>
-                </Row>
-            </Form.Group>
             <VerticalCenterWrapper>
                 <SubmitButtom type="submit">Submit</SubmitButtom>
             </VerticalCenterWrapper>
@@ -111,7 +96,7 @@ const SignupLoginModal = props => {
                 <br />
                 <SignUpLoginForm />
                 <Row style={{ borderBottom: "1px solid #dee2e6" }} />
-                <ResponsiveHeader4>Or with your favorite third party provider:</ResponsiveHeader4>
+                <ResponsiveHeader4>Or login with Google:</ResponsiveHeader4>
                 <br />
                 <DelegatedAuthList />
             </PaddedContainer>

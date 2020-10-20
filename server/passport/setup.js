@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/users");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -47,6 +48,34 @@ passport.use(
           return done(null, false, {message: err});
         });
   })
+);
+
+passport.use(
+    new GoogleStrategy({
+        // options for google strategy
+        clientID: '327840195326-ht3pm915kemrjagk0ea9e8uini9hv294.apps.googleusercontent.com',
+        clientSecret: 'esbIj6VJ-4-17GGtEPOBrroX',
+        callbackURL: '/api/auth/google-direct'
+    }, (accessToken, refreshToken, profile, done) => {
+        // check if user already exists in our own db
+        User.findOne({thid_party_auth: profile.id}).then((currentUser) => {
+            if(currentUser){
+                // already have this user
+                // console.log('user is: ', currentUser);
+                done(null, currentUser);
+            } else {
+                // if not, create user in our db
+                new User({
+                    thid_party_auth: profile.id,
+                    name: profile.displayName,
+                    email:profile.displayName
+                }).save().then((newUser) => {
+                    console.log('created new user: ', newUser);
+                    done(null, newUser);
+                });
+            }
+        });
+    })
 );
 
 module.exports = passport;
