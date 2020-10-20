@@ -47,7 +47,7 @@ export default class Details extends Component {
         if (index > -1) {
           arr.splice(index, 1);
         }
-        console.log(arr);
+        // console.log(arr);
         axios.post("/api/cart", {mode,user,arr}).then(res => {
             alert("Item removed from cart!");
             window.location.reload(false);
@@ -69,6 +69,15 @@ export default class Details extends Component {
         var arr = this.state.cart;
         axios.post("/api/orders", {user,arr}).then(res => {
             alert("Order placed!");
+            window.location.reload(false);
+        }).catch(err =>{
+          console.log(err);
+        });
+        arr = [null];
+        var mode = "remove";
+        console.log(this.state.cart);
+        axios.post("/api/cart", {mode,user,arr}).then(res => {
+            alert("Item removed from cart!");
             window.location.reload(false);
         }).catch(err =>{
           console.log(err);
