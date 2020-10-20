@@ -3,6 +3,22 @@ const User = require("../models/users");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+function constTryCatch() {
+  try {
+    const keys = require('./keys');
+    return keys;
+  } catch (e) {
+    console.log("Please add keys.js to passport folder");
+    const keys = {google: {
+              clientID: 'a',
+              clientSecret: 'a',
+          }
+        }
+        return keys;
+  }
+}
+const keys = constTryCatch();
+console.log(keys);
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -53,8 +69,8 @@ passport.use(
 passport.use(
     new GoogleStrategy({
         // options for google strategy
-        clientID: '327840195326-ht3pm915kemrjagk0ea9e8uini9hv294.apps.googleusercontent.com',
-        clientSecret: 'esbIj6VJ-4-17GGtEPOBrroX',
+        clientID: keys.google.clientID,
+        clientSecret: keys.google.clientSecret,
         callbackURL: '/api/auth/google-direct'
     }, (accessToken, refreshToken, profile, done) => {
         // check if user already exists in our own db
