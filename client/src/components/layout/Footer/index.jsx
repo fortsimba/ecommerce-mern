@@ -1,16 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { StyledFooter } from "./styles";
+import "./styles.css";
 
 const Footer = () => {
-    return (
-        <StyledFooter sticky="bottom">
-            <div style={{ float: "left" }}>Developed by Pranay Yadav, Niwas Chadha, Payal Basu</div>
-            <div style={{ float: "right", marginLeft: "auto" }}>
-                <Link to="/about">About</Link>
-            </div>
-        </StyledFooter>
-    );
+  return (
+    <StyledFooter sticky="bottom">
+      <div style={{ float: "left" }}>
+        <p id="footer_text">
+          Developed by Pranay Yadav, Niwas Chadha, Payal Basu
+        </p>
+      </div>
+      <div style={{ float: "right", marginLeft: "auto" }}>
+        {" "}
+        <Link to="/about">
+          <p id="footer_text">About</p>
+        </Link>
+      </div>
+    </StyledFooter>
+  );
 };
 
 export default Footer;

@@ -1,53 +1,61 @@
 import React, { Component } from "react";
 import currency from "../../data/currency";
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { Link } from "react-router-dom";
+import axios from "axios";
+import "./styles.css";
 
-const user = localStorage.getItem('token');
+const user = localStorage.getItem("token");
 export default class Products extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.addCart = this.addCart.bind(this);
     this.addWishlist = this.addWishlist.bind(this);
   }
-  addCart(product){
-      var mode = "add";
-      if(user==''){
-        alert('Please login before adding products to cart!');
-        return;
-      }
-      axios.post("/api/cart", {mode,user,product}).then(res => {
-          alert("Item added to cart!");
-      }).catch(err =>{
+  addCart(product) {
+    var mode = "add";
+    if (user == "") {
+      alert("Please login before adding products to cart!");
+      return;
+    }
+    axios
+      .post("/api/cart", { mode, user, product })
+      .then((res) => {
+        alert("Item added to cart!");
+      })
+      .catch((err) => {
         console.log(err);
       });
   }
-  addWishlist(product){
-    if(user==''){
-      alert('Please login before adding products to wishlist!');
+  addWishlist(product) {
+    if (user == "") {
+      alert("Please login before adding products to wishlist!");
       return;
     }
     var mode = "add";
-    axios.post("/api/wishlist", {mode,user,product}).then(res => {
+    axios
+      .post("/api/wishlist", { mode, user, product })
+      .then((res) => {
         alert("Item added to wishlist!");
-    }).catch(err =>{
-      console.log(err);
-    });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   render() {
     const productItems = this.props.products.map((product) => (
-      <div className="col-md-3" key={product["Uniq Id"]}>
-        <div className="thumbnail text-center">
-
-            <div>
-            <Link to={`/product/${product["Uniq Id"]}`} >
+      <div className="col-md-4" key={product["Uniq Id"]}>
+        <div className="thumbnail text-center product_component">
+          <div>
+            <Link to={`/product/${product["Uniq Id"]}`}>
               <img
+                width="300"
+                height="300"
                 src={`${product["Product Image Url"]}`}
                 alt={product["Product Name"]}
               ></img>
               <p>{product["Product Name"]}</p>
             </Link>
-            </div>
+          </div>
 
           <div>
             <b>{currency.formatCurrency(product["Product Price"])}</b>

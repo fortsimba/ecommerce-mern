@@ -1,0 +1,25 @@
+.nav_edits {
+  background-color: #008891;
+  color: #fff;
+}
+
+.navbar {
+  padding: 0 0 4.5rem;
+}
+
+.nav-item {
+  padding: 0px 18px;
+}
+
+h1 {
+  font-family: "Montserrat", serif;
+  font-size: 3.5rem;
+  line-height: 1.5;
+  font-weight: 900;
+  color: #fff;
+}
+
+#subtitle {
+  font-family: "Montserrat", serif;
+  color: #fff;
+}
