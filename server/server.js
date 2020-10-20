@@ -91,9 +91,9 @@ app.route("/api/cart").post((req,res,next) => {
         dbjs.users.update({_id:mongojs.ObjectId(req.body.user)}, {$push: {'cart':req.body.arr[i]}});
       }
     }
-    dbjs.on('error', function(err){
-      return res.status(400).json({errors:"Database error! Records not updated"})
-    })
+    // dbjs.on('error', function(err){
+    //   return res.status(400).json({errors:"Database error! Records not updated"})
+    // })
     return res.status(200).json({success:"Succesfully updated records!"})
 }).get((req,res) => {
   dbjs.users.findOne({_id: mongojs.ObjectId(req.query.uid)}, async function(err, docs){
@@ -113,9 +113,9 @@ app.route("/api/wishlist").post((req,res,next) => {
       dbjs.users.update({_id:mongojs.ObjectId(req.body.user)}, {$push: {'wishlist':req.body.arr[i]}});
     }
   }
-  dbjs.on('error', function(err){
-    return res.status(400).json({errors:"Database error! Records not updated"})
-  })
+  // dbjs.on('error', function(err){
+  //   return res.status(400).json({errors:"Database error! Records not updated"})
+  // })
   return res.status(200).json({success:"Succesfully updated records!"})
 }).get((req,res) => {
   dbjs.users.findOne({_id: mongojs.ObjectId(req.query.uid)}, async function(err, docs){
@@ -129,9 +129,9 @@ app.route("/api/orders").post((req,res,next) => {
   for(var i=0;i<req.body.arr.length;i++){
     dbjs.users.update({_id:mongojs.ObjectId(req.body.user)}, {$push: {'orders':req.body.arr[i]}});
   }
-  dbjs.on('error', function(err){
-    return res.status(400).json({errors:"Database error! Records not updated"})
-  })
+  // dbjs.on('error', function(err){
+  //   return res.status(400).json({errors:"Database error! Records not updated"})
+  // })
   return res.status(200).json({success:"Succesfully updated records!"})
 }).get((req,res) => {
   dbjs.users.findOne({_id: mongojs.ObjectId(req.query.uid)}, async function(err, docs){

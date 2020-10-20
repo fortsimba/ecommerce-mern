@@ -31,9 +31,9 @@ router.post("/", (req, res, next) => {
   if(req.body.update[8]){
     dbjs.users.update({_id:mongojs.ObjectId(req.body.current._id)}, {$set:{pincode:req.body.update[8]}});
   }
-  dbjs.on('error', function(err){
-    return res.status(400).json({errors:"Database error! Records not updated"})
-  })
+  // dbjs.on('error', function(err){
+  //   return res.status(400).json({errors:"Database error! Records not updated"})
+  // })
   return res.status(200).json({success:"Succesfully updated records!"})
 });
 

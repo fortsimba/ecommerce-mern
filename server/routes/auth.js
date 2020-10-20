@@ -3,7 +3,6 @@ const router = express.Router();
 const passport = require("passport");
 
 router.post("/register_login", (req, res, next) => {
-  console.log('he');
   passport.authenticate(("local"), function(err, user, info) {
     if(err){
       return res.status(400).json({errors: err});
