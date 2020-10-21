@@ -96,7 +96,7 @@ app.route("/api/wishlist_count").post((req,res,next) => {
 //       console.log(docs[0].products[0]['Uniq Id']);
 //       console.log(docs[0].products[0]['wishlist']);
 //     });
-})
+// })
 
 app.route("/api/cart").post((req,res,next) => {
     if(req.body.mode=="add"){
