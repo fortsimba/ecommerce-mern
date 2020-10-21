@@ -4,6 +4,7 @@ import axios from "axios";
 import Filter from "../Filter";
 import { Row } from "react-bootstrap";
 import "./styles.css";
+import FuzzySearch from "react-fuzzy"
 
 
 class Landing extends Component {
@@ -53,7 +54,6 @@ class Landing extends Component {
           ),
         };
       }
-
       // if (state.category !== "") {
       //   return {
       //     filteredProducts: state.product((a) => a["Product Category"]),
@@ -64,10 +64,44 @@ class Landing extends Component {
   }
 
   render() {
+    var list = this.state.products;
+    if (this.state.products) {
+      const list = this.state.products;
+      console.log(list)
+    }
     return (
       <div>
         <Row>
           <div>
+          {(() => {
+              if(this.state.products) {
+                return <div className="row" style={{marginBottom:"50px", marginTop:"20px"}}><div className="col-md-5"></div><div className="col-md-4"><FuzzySearch
+                    list={list}
+                    keys={['Uniq Id']}
+                    width={430}
+                    onSelect={() => {console.log(this.state.products)}}
+                    resultsTemplate={(props, state, styles, clickHandler) => {
+                      return state.results.map((val, i) => {
+                        const style = state.selectedIndex === i ? styles.selectedResultStyle : styles.resultsStyle;
+                        return (
+                          <div
+                            key={i}
+                            style={style}
+                            onClick={() => window.location.replace("/product/"+val["Uniq Id"])}
+                          >
+                          <img
+                            width="40"
+                            height="40"
+                            src={val["Product Image Url"]}
+                          ></img>
+                            {val["Product Name"]}
+                          </div>
+                        );
+                      });
+                    }}
+                  /></div></div>
+             }
+          })()}
             {/*className="col-md-8"*/}
             <Filter
               category={this.state.category}
