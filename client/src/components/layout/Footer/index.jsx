@@ -11,12 +11,6 @@ const Footer = () => {
           Developed by Pranay Yadav, Niwas Chadha, Payal Basu
         </p>
       </div>
-      <div style={{ float: "right", marginLeft: "auto" }}>
-        {" "}
-        <Link to="/about">
-          <p id="footer_text">About</p>
-        </Link>
-      </div>
     </StyledFooter>
   );
 };
