@@ -11,7 +11,7 @@ export default class Details extends Component {
         super(props);
         this.state = { products : [] , comments: []}
         this.addCart = this.addCart.bind(this);
-        this.addWishlist = this.addWishlist.bind(this);
+        this.addWishlist = this.addWishlist.bind(this)
     }
     componentWillMount(){
         var prod_id = this.props.match.params.id
@@ -21,22 +21,25 @@ export default class Details extends Component {
                 products : res.data.products
                 })
         )
+
         axios.get("/api/details", {params: {
             _id : prod_id }}
-        ).then(
-            (res) => {this.setState({
-                comments : res.data[0]});
-                console.log(this.state.comments)}
+        ).then((res) => 
+        {this.setState({
+                comments : res.data[0]})}
         )
     }
+
+
     addCart(product){
         var mode = "add";
         console.log(product);
         axios.post("/api/cart", {mode,user,product}).then(res => {
-            alert("Item added to cart!");
+            alert("Item added to cart!")
         }).catch(err =>{
           console.log(err);
-        });
+          console.log(this.state.products)
+        })
     }
 
 
@@ -50,6 +53,7 @@ export default class Details extends Component {
         }).catch(err =>{
             alert("Comment could not be posted")
         })
+        window.location.reload(false)
     }
 
     addWishlist(product){
@@ -61,10 +65,86 @@ export default class Details extends Component {
       });
     }
 
+
+
+    commenter(what){
+        /* 'coms' for comments  , 'avg_ratings' for average ratings , everything else null*/
+        if(this.state.comments){
+            const ct = this.state.comments.comment
+            const nm = this.state.comments.name
+            const rt = this.state.comments.rate
+            
+            const names = []
+            if (nm) {
+                for (var i =0 ; i<nm.length ; i++){
+                    names.push(nm[i])
+                }}
+            
+            const ratings = []
+            if (rt) {
+                for (var i =0 ; i<rt.length ; i++){
+                    ratings.push(rt[i])
+                }}
+            
+            const cmnts = []
+            if (ct) {
+                for (var i =0 ; i<ct.length ; i++){
+                    cmnts.push(ct[i])
+                }}
+            
+            
+            var ind = []
+            for ( var j = names.length - 1 ; j > names.length - 6 ; j--){
+                if (j<0){break}
+                ind.push(j)
+            }
+
+            var coms = ind.map( (indx) => 
+                <div>
+                    <br/>
+                    <b>{names[indx]}</b> has rated this product {ratings[indx]}/5.
+                    <br/>
+                    <i>{cmnts[indx]}</i>
+                    <br/>
+                    <hr/>
+                </div>
+            )
+            
+            
+            var rts = ratings.map(i => parseInt(i))
+            var sum = rts.reduce((previous,current) => previous += current)
+            var avg = sum/ratings.length
+
+
+            if (what=='avg_ratings'){
+                return(
+                    <div>                  
+                        Our cusotmers rated this product {avg}/5
+                    </div>
+                );
+            }
+            else if (what=='coms') {
+                return(
+                    <div>                  
+                        <h5>Hear What Our Customers Say</h5>
+                        {coms}
+                    </div>
+                );
+            }
+            else {
+                return (null)
+            }
+            
+        }
+
+    }
+
+
     render() {
         const item =  this.props.match.params.id;
         const arr  = this.state.products
         let prod = null
+        
 
 
         for (const pr of arr) {
@@ -74,9 +154,10 @@ export default class Details extends Component {
                }
         }
 
+        
+    
         return (
-            prod == null
-            ?
+            prod==null?
             <div>
 
                 <h3>This product is not avaiable </h3>
@@ -92,6 +173,7 @@ export default class Details extends Component {
 
                     <h4>{prod["Product Name"]}</h4>
                     <h5>{prod["Product Brand"]}</h5>
+                    {this.commenter('avg_ratings')}
                     <p>{prod["Product Description"]}</p>
 
                     <h6> What does it contain?</h6>
@@ -113,8 +195,13 @@ export default class Details extends Component {
                     ></img>
                     <br/>
                     <br/>
+                    <hr/>
                     </div>
 
+                    
+                    {this.commenter('coms')}
+                    
+                     
                     <div>
                         <form method ="get" action="" name="commentbox">
 
@@ -123,7 +210,7 @@ export default class Details extends Component {
                             <br/>
 
                             <label for="rating" > Rate our products:  </label>
-                            <select id="rating" name="rating">
+                            <select id="rating" name="rating" required>
                                 <option value="5">5</option>
                                 <option value="4">4</option>
                                 <option value="3">3</option>
@@ -132,12 +219,11 @@ export default class Details extends Component {
                             </select> <br/>
 
                             <label for="comment">Leave a comment here:  </label> <br/>
-                            <textarea id="comment" name="comment" row="5" col="200"/> <br/>
+                            <textarea id="comment" name="comment" row="5" col="200" required/> <br/>
                             <input type="reset" value="submit" onClick={()=> this.submit(prod["Uniq Id"])} />
                             </form>
                     </div>
             </div>
-
-        )
+        )     
     }
 }
