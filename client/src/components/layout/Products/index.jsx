@@ -31,10 +31,12 @@ export default class Products extends Component {
       alert("Please login before adding products to wishlist!");
       return;
     }
-    axios.post("/api/wishlist_count", {pid:product,mode:'inc'}).catch(err =>{
-      console.log(err);
-      console.log(err.response);
-    });
+    axios
+      .post("/api/wishlist_count", { pid: product, mode: "inc" })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+      });
     var mode = "add";
     axios
       .post("/api/wishlist", { mode, user, product })
@@ -64,13 +66,13 @@ export default class Products extends Component {
           <div>
             <b>{currency.formatCurrency(product["Product Price"])}</b>
             <button
-              className="btn btn-info"
+              className="btn btn-lg btn-info"
               onClick={() => this.addCart(product["Uniq Id"])}
             >
               Add To Cart
             </button>
             <img
-              height="50"
+              height="60"
               className="btn btn-display"
               onClick={() => this.addWishlist(product["Uniq Id"])}
               src="https://www.flaticon.com/svg/static/icons/svg/865/865904.svg"

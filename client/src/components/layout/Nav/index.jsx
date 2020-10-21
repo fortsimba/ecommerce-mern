@@ -9,7 +9,7 @@ import "./styles.css";
 const Nav = () => {
   const [show, setShow] = useState(false);
   const Dropdown = () => (
-    <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+    <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
       <NavDropdown.Item href="/profile">My profile</NavDropdown.Item>
       <NavDropdown.Item href="/wishlist">Wishlist</NavDropdown.Item>
       <NavDropdown.Item href="/orders">Orders</NavDropdown.Item>

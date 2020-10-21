@@ -13,7 +13,7 @@ export const StyledNav = styled(Navbar)`
 export const LoginButton = styled(Button)`
   background: #114b74;
   color: #fff;
-  border-radius: 3px;
+  border-radius: 10px;
   padding: 5px 10px;
 
   border-color: white;
