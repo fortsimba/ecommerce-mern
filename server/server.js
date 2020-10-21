@@ -19,6 +19,8 @@ mongoose.connect(MONGO_URI, {useNewUrlParser: true})
         .then(console.log(`MongoDB connected ${MONGO_URI})`))
         .catch(err => console.log(err));
 
+
+
 //insert products to mongodb if they are not already present
 dbjs.products.find(function(err, docs){
     if(!docs.length){
@@ -117,6 +119,8 @@ app.route("/api/wishlist").post((req,res,next) => {
   //   return res.status(400).json({errors:"Database error! Records not updated"})
   // })
   return res.status(200).json({success:"Succesfully updated records!"})
+
+
 }).get((req,res) => {
   dbjs.users.findOne({_id: mongojs.ObjectId(req.query.uid)}, async function(err, docs){
     if(err) throw err;
@@ -124,6 +128,26 @@ app.route("/api/wishlist").post((req,res,next) => {
   });
 })
 
+
+
+
+app.route("/api/details").post((req , res ) => {
+        dbjs.comments.update({'_id': req.body.product} ,{ $push: {
+            'name': req.body.inp_name,
+            'rate': req.body.inp_rating,
+            'comment': req.body.inp_comment}},
+          { upsert : true })
+          dbjs.on('error', function(err){
+            return res.status(400).json({errors:"Database error! Records not updated"})
+          })
+        return res.status(200).json({success:"Succesfully updated records!"})
+
+  }).get(function( req , res ) {
+    dbjs.comments.find({_id: req.query._id}, async function(err, docs){
+      if(err) throw err;
+      await res.json(docs);
+    });
+  })
 
 app.route("/api/orders").post((req,res,next) => {
   for(var i=0;i<req.body.arr.length;i++){
