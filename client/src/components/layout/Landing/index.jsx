@@ -77,7 +77,7 @@ class Landing extends Component {
               if(this.state.products) {
                 return <div className="row" style={{marginBottom:"50px", marginTop:"20px"}}><div className="col-md-5"></div><div className="col-md-4"><FuzzySearch
                     list={list}
-                    keys={['Uniq Id']}
+                    keys={['Product Name']}
                     width={430}
                     onSelect={() => {console.log(this.state.products)}}
                     resultsTemplate={(props, state, styles, clickHandler) => {
@@ -85,16 +85,15 @@ class Landing extends Component {
                         const style = state.selectedIndex === i ? styles.selectedResultStyle : styles.resultsStyle;
                         return (
                           <div
-                            key={i}
                             style={style}
                             onClick={() => window.location.replace("/product/"+val["Uniq Id"])}
                           >
                           <img
-                            width="40"
-                            height="40"
+                            width="100"
+                            height="100"
                             src={val["Product Image Url"]}
                           ></img>
-                            {val["Product Name"]}
+                            <p>{val["Product Name"]}</p>
                           </div>
                         );
                       });
