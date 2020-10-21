@@ -2,7 +2,6 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Profile from "./components/layout/Profile";
-import About from "./components/layout/About";
 import UpdateProfile from "./components/layout/UpdateProfile";
 import Landing from "./components/layout/Landing";
 import Nav from "./components/layout/Nav";
@@ -27,9 +26,6 @@ const App = () => {
                 </Route>
                 <Route exact path="/profile">
                     <Profile />
-                </Route>
-                <Route exact path="/about">
-                    <About />
                 </Route>
                 <Route  path="/product/:id" component={Details} />
                 <Route exact path="/landing">

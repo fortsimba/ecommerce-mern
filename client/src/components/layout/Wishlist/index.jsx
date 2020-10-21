@@ -41,6 +41,10 @@ export default class Details extends Component {
     }
     removeWishlist(product){
         console.log(this.state.wishlist);
+        axios.post("/api/wishlist_count", {pid:product,mode:'dec'}).catch(err =>{
+          console.log(err);
+          console.log(err.response);
+        });
         var arr = this.state.wishlist;
         var mode = "remove";
         const index = arr.indexOf(product);

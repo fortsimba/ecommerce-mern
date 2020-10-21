@@ -57,6 +57,10 @@ export default class Details extends Component {
     }
     addWishlist(product){
       this.removeCart(product);
+      axios.post("/api/wishlist_count", {pid:product,mode:'inc'}).catch(err =>{
+        console.log(err);
+        console.log(err.response);
+      });
       var mode = "add";
       axios.post("/api/wishlist", {mode,user,product}).then(res => {
           alert("Item moved to wishlist!");

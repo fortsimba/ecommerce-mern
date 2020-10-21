@@ -82,6 +82,21 @@ app.get("/api/profile_import", function(req, res){
 });
 app.use("/api/profile_update", profile);
 
+app.route("/api/wishlist_count").post((req,res,next) => {
+    if(req.body.mode=="inc"){
+        dbjs.products.update({"products.Uniq Id": req.body.pid}, {$inc: {'products.$.wishlist': 1}});
+    }
+    else{
+        dbjs.products.update({"products.Uniq Id": req.body.pid}, {$inc: {'products.$.wishlist': -1}});
+    }
+    return res.status(200).json({success:"Succesfully updated records!"})
+})
+// .get((req,res) => {
+//     dbjs.products.find({"products.Uniq Id": req.query.pid}, {'products.$':1}, async function(err,docs){
+//       console.log(docs[0].products[0]['Uniq Id']);
+//       console.log(docs[0].products[0]['wishlist']);
+//     });
+})
 
 app.route("/api/cart").post((req,res,next) => {
     if(req.body.mode=="add"){

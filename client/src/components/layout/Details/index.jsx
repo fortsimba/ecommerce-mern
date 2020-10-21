@@ -11,7 +11,8 @@ export default class Details extends Component {
         super(props);
         this.state = { products : [] , comments: []}
         this.addCart = this.addCart.bind(this);
-        this.addWishlist = this.addWishlist.bind(this)
+        this.addWishlist = this.addWishlist.bind(this);
+        // this.commenter = this.commenter.bind(this);
     }
     componentWillMount(){
         var prod_id = this.props.match.params.id
@@ -24,7 +25,7 @@ export default class Details extends Component {
 
         axios.get("/api/details", {params: {
             _id : prod_id }}
-        ).then((res) => 
+        ).then((res) =>
         {this.setState({
                 comments : res.data[0]})}
         )
@@ -61,6 +62,10 @@ export default class Details extends Component {
     }
 
     addWishlist(product){
+      axios.post("/api/wishlist_count", {pid:product,mode:'inc'}).catch(err =>{
+        console.log(err);
+        console.log(err.response);
+      });
       if(user==''){
         alert('Please login before adding products to wishlist!');
         return;
@@ -78,36 +83,36 @@ export default class Details extends Component {
     commenter(what){
         /* 'coms' for comments  , 'avg_ratings' for average ratings , everything else null*/
         if(this.state.comments){
-            const ct = this.state.comments.comment
-            const nm = this.state.comments.name
-            const rt = this.state.comments.rate
-            
+            const ct = this.state.comments.comment;
+            const nm = this.state.comments.name;
+            const rt = this.state.comments.rate;
+
             const names = []
             if (nm) {
                 for (var i =0 ; i<nm.length ; i++){
                     names.push(nm[i])
                 }}
-            
+
             const ratings = []
             if (rt) {
                 for (var i =0 ; i<rt.length ; i++){
                     ratings.push(rt[i])
                 }}
-            
+
             const cmnts = []
             if (ct) {
                 for (var i =0 ; i<ct.length ; i++){
                     cmnts.push(ct[i])
                 }}
-            
-            
+
+
             var ind = []
             for ( var j = names.length - 1 ; j > names.length - 6 ; j--){
                 if (j<0){break}
                 ind.push(j)
             }
 
-            var coms = ind.map( (indx) => 
+            var coms = ind.map( (indx) =>
                 <div>
                     <br/>
                     <b>{names[indx]}</b> has rated this product {ratings[indx]}/5.
@@ -117,23 +122,27 @@ export default class Details extends Component {
                     <hr/>
                 </div>
             )
-            
-            
+
+
             var rts = ratings.map(i => parseInt(i))
-            var sum = rts.reduce((previous,current) => previous += current)
+            if(rts[0]){
+              var sum = rts.reduce((previous,current) => previous += current);
+            }
+            else{
+              var sum=0;
+            }
+            // var sum = rts.reduce((previous,current) => previous += current)
             var avg = sum/ratings.length
 
 
             if (what=='avg_ratings'){
                 return(
-                    <div>                  
-                        Our cusotmers rated this product {avg}/5
-                    </div>
+                        <h5>Our customers rated this product {avg}/5 </h5>
                 );
             }
             else if (what=='coms') {
                 return(
-                    <div>                  
+                    <div>
                         <h5>Hear What Our Customers Say</h5>
                         {coms}
                     </div>
@@ -142,7 +151,7 @@ export default class Details extends Component {
             else {
                 return (null)
             }
-            
+
         }
 
     }
@@ -152,7 +161,7 @@ export default class Details extends Component {
         const item =  this.props.match.params.id;
         const arr  = this.state.products
         let prod = null
-        
+
 
 
         for (const pr of arr) {
@@ -162,8 +171,8 @@ export default class Details extends Component {
                }
         }
 
-        
-    
+
+
         return (
             prod==null?
             <div>
@@ -181,7 +190,10 @@ export default class Details extends Component {
 
                     <h4>{prod["Product Name"]}</h4>
                     <h5>{prod["Product Brand"]}</h5>
+                    <br />
+                    <h5>{prod["wishlist"]} People are interested in this product</h5>
                     {this.commenter('avg_ratings')}
+                    <br />
                     <p>{prod["Product Description"]}</p>
 
                     <h6> What does it contain?</h6>
@@ -206,10 +218,10 @@ export default class Details extends Component {
                     <hr/>
                     </div>
 
-                    
+
                     {this.commenter('coms')}
-                    
-                     
+
+
                     <div>
                         <form method ="get" action="" name="commentbox">
 
@@ -232,6 +244,6 @@ export default class Details extends Component {
                             </form>
                     </div>
             </div>
-        )     
+        )
     }
 }
