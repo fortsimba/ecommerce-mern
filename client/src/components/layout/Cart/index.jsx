@@ -7,7 +7,7 @@ const user = localStorage.getItem('token');
 export default class Details extends Component {
     constructor(props){
         super(props);
-        this.state = { cart : [], products: [], filteredProducts: [] };
+        this.state = { cart : [], products: [], filteredProducts: [], userData : [] };
     }
     componentWillMount(){
         if(user==''){
@@ -16,6 +16,12 @@ export default class Details extends Component {
         axios.get("/api/cart", {params: {uid: user}}).then( (res) => {
             this.setState({
                 cart : res.data
+              });
+            }
+        )
+        axios.get("/api/profile_import", {params: {uid: user}}).then( (res) => {
+            this.setState({
+                userData : res.data
               });
             }
         )
@@ -134,6 +140,17 @@ export default class Details extends Component {
                    return <p>No items in the cart!</p>
                  }
               })()}
+              <h1>Account Data: </h1><br/>
+                <p>Name: {this.state.userData.name}</p>
+                <p>Phone: {this.state.userData.phone}</p>
+                <p>Email: {this.state.userData.email}</p>
+                <p>Address: {this.state.userData.line1} {this.state.userData.line2}, {this.state.userData.city}, {this.state.userData.state}, {this.state.userData.pincode} {this.state.userData.country}</p>
+                <br />
+                <a href="/update_profile">
+                  <button className="btn btn-info">Update Address</button>
+                </a>
+                <br />
+                <br />
               <button
                 className="btn btn-info"
                 onClick={() => this.checkout()}
