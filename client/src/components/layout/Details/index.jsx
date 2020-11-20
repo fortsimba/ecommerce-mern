@@ -9,7 +9,7 @@ const user = localStorage.getItem('token');
 export default class Details extends Component {
     constructor(props){
         super(props);
-        this.state = { products : [] , comments: []}
+        this.state = { hotels : [] , comments: []}
         this.addCart = this.addCart.bind(this);
         this.addWishlist = this.addWishlist.bind(this);
         // this.commenter = this.commenter.bind(this);
@@ -17,9 +17,9 @@ export default class Details extends Component {
     componentWillMount(){
         var prod_id = this.props.match.params.id
 
-        axios.get("/api/products_import").then( (res) =>
+        axios.get("/api/hotel_import").then( (res) =>
             this.setState({
-                products : res.data.products
+                hotels : res.data.hotels
                 })
         )
 
@@ -34,7 +34,7 @@ export default class Details extends Component {
 
     addCart(product){
         if(user==''){
-          alert('Please login before adding products to cart!');
+          alert('Please login before adding hotels to cart!');
           return;
         }
         var mode = "add";
@@ -43,7 +43,7 @@ export default class Details extends Component {
             alert("Item added to cart!")
         }).catch(err =>{
           console.log(err);
-          console.log(this.state.products)
+          console.log(this.state.hotels)
         })
     }
 
@@ -61,13 +61,17 @@ export default class Details extends Component {
         window.location.reload(false)
     }
 
+    book(hotel){
+
+    }
+
     addWishlist(product){
       axios.post("/api/wishlist_count", {pid:product,mode:'inc'}).catch(err =>{
         console.log(err);
         console.log(err.response);
       });
       if(user==''){
-        alert('Please login before adding products to wishlist!');
+        alert('Please login before adding hotels to wishlist!');
         return;
       }
       var mode = "add";
@@ -159,14 +163,14 @@ export default class Details extends Component {
 
     render() {
         const item =  this.props.match.params.id;
-        const arr  = this.state.products
-        let prod = null
+        const arr  = this.state.hotels
+        let htl = null
 
 
 
-        for (const pr of arr) {
-            if (pr["Uniq Id"]==item ) {
-                prod = pr;
+        for (const ht of arr) {
+            if (ht["uniq_id"]==item ) {
+                htl = ht;
                 break;
                }
         }
@@ -174,35 +178,64 @@ export default class Details extends Component {
 
 
         return (
-            prod==null?
+            htl==null?
             <div>
 
-                <h3>This product is not avaiable </h3>
+                <h3>This hotel does not exist </h3>
             </div>
             :
             <div>
 
                     <div>
                     <img
-                    src={`${prod["Product Image Url"]}`}
-                    alt={prod["Product Name"]}
+                    src={`${htl["image_urls"]}`}
+                    alt={htl["property_name"]}
                     ></img>
 
-                    <h4>{prod["Product Name"]}</h4>
-                    <h5>{prod["Product Brand"]}</h5>
+                    <h4>{htl["property_name"]}</h4>
+                    <h5>{htl["city"]}</h5>
+                    <h6>{htl["property_address"]}</h6>
+                    <h6>{htl["mmt_review_score"]}</h6>
                     <br />
-                    <h5>{prod["wishlist"]} People are interested in this product</h5>
-                    {this.commenter('avg_ratings')}
-                    <br />
-                    <p>{prod["Product Description"]}</p>
 
-                    <h6> What does it contain?</h6>
-                    <p>{prod["Product Contents"]}</p>
+                    <div>
+                        <form method ="get" action="" name="booking">
+                        <label for="check-in">Check-In Date: </label> &ensp;
+                        <input type="date" id="check-in" name="check-in" required/>
+                        &emsp; &emsp;
 
-                    <b>{currency.formatCurrency(prod["Product Price"])}</b>
+                        <label for="check-out">Check-Out Date: </label> &ensp;
+                        <input type="date" id="check-out" name="check-out" required/>
+                        
+                        <br/>
+
+                        <label for="room_type" > Room Type:  </label> &ensp;
+                        <select id="room_type" name="room_type" required> 
+                            <option value="1">{htl["room_types"]}</option>
+                        </select>
+                        
+                        &emsp; &emsp;
+
+                        <label for="no_rooms"> Number of Rooms: </label> &ensp; 
+                        <input type="number" max="6" min="1" step="1" id="no_rooms" name="no_rooms" required/>
+
+                        <br/>
+                       {//Total ammount is {document.getElementById('no_rooms').value * htl["per_person_price"]}
+                        }
+
+                        <input type="reset" value="Book" onClick={()=> this.book(htl["uniq_id"])} />
+                        </form>
+                    </div>
+
+                    <p>{htl["hotel_overview"]}</p>
+
+                    <h6> Features </h6>
+                    <p>{htl["in_your_room"]}</p>
+
+                    <b>{currency.formatCurrency(htl["per_person_price"])}</b>
                     <button
                     className="btn btn-info"
-                    onClick={() => this.addCart(prod["Uniq Id"])}
+                    onClick={() => this.addCart(htl["uniq_id"])}
                     >
                     Add To Cart
                     </button>
@@ -210,7 +243,7 @@ export default class Details extends Component {
                     <img
                     height="50"
                     className="btn btn-display"
-                    onClick={() => this.addWishlist(prod["Uniq Id"])}
+                    onClick={() => this.addWishlist(htl["uniq_id"])}
                     src="https://www.flaticon.com/svg/static/icons/svg/865/865904.svg"
                     ></img>
                     <br/>
@@ -229,7 +262,7 @@ export default class Details extends Component {
                             <input type="text" id="name" name="name" required/> <br/>
                             <br/>
 
-                            <label for="rating" > Rate our products:  </label>
+                            <label for="rating" > Rate our hotels:  </label>
                             <select id="rating" name="rating" required>
                                 <option value="5">5</option>
                                 <option value="4">4</option>
@@ -240,7 +273,7 @@ export default class Details extends Component {
 
                             <label for="comment">Leave a comment here:  </label> <br/>
                             <textarea id="comment" name="comment" row="5" col="200" required/> <br/>
-                            <input type="reset" value="submit" onClick={()=> this.submit(prod["Uniq Id"])} />
+                            <input type="reset" value="submit" onClick={()=> this.submit(htl["uniq_id"])} />
                             </form>
                     </div>
             </div>

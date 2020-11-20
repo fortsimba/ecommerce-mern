@@ -27,7 +27,7 @@ const App = () => {
                 <Route exact path="/profile">
                     <Profile />
                 </Route>
-                <Route  path="/product/:id" component={Details} />
+                <Route  path="/hotel/:id" component={Details} />
                 <Route exact path="/landing">
                     <Landing />
                 </Route>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Products from "../Products";
+import Hotels from "../Hotels";
 import axios from "axios";
 import Filter from "../Filter";
 import { Row } from "react-bootstrap";
@@ -10,15 +10,15 @@ import FuzzySearch from "react-fuzzy"
 class Landing extends Component {
   constructor(props) {
     super(props);
-    this.state = { products: [], filteredProducts: [] };
+    this.state = { hotels: [], filteredHotels: [] };
     this.handleChangeSort = this.handleChangeSort.bind(this);
     this.handleChangeCategory = this.handleChangeCategory.bind(this);
   }
   componentWillMount() {
-    axios.get("/api/products_import").then((res) => {
+    axios.get("/api/hotel_import").then((res) => {
       this.setState({
-        products: res.data.products,
-        filteredProducts: res.data.products,
+        hotels: res.data.hotels,
+        filteredHotels: res.data.hotels,
       });
     });
   }
@@ -33,40 +33,42 @@ class Landing extends Component {
   }
 
   listProducts() {
+    
     this.setState((state) => {
       if (state.sort !== "") {
-        state.products.sort((a, b) =>
+        state.hotels.sort((a, b) =>
           state.sort === "lowest"
-            ? a["Product Price"] < b["Product Price"]
+            ? a["per_person_price"] < b["per_person_price"]
               ? 1
               : -1
-            : a["Product Price"] > b["Product Price"]
+            : a["per_person_price"] > b["per_person_price"]
             ? 1
             : -1
         );
       } else {
-        state.products.sort((a, b) => (a["Uniq Id"] < b["Uniq Id"] ? 1 : -1));
+        state.hotels.sort((a, b) => (a["uniq_id"] < b["uniq_id"] ? 1 : -1));
       }
       if (state.category !== "") {
         return {
-          filteredProducts: state.products.filter(
-            (a) => a["Product Category"].indexOf(state.category) >= 0
+          filteredHotels: state.hotels.filter(
+            (a) => a["city"].indexOf(state.category) >= 0
           ),
         };
       }
       // if (state.category !== "") {
       //   return {
-      //     filteredProducts: state.product((a) => a["Product Category"]),
+      //     filteredHotels: state.product((a) => a["city"]),
       //   };
       // }
-      return { filteredProducts: state.products };
+      return { filteredHotels: state.hotels };
     });
   }
 
   render() {
-    var list = this.state.products;
-    if (this.state.products) {
-      const list = this.state.products;
+    console.log(this.state.hotels)
+    var list = this.state.hotels;
+    if (this.state.hotels) {
+      const list = this.state.hotels;
       console.log(list)
     }
     return (
@@ -74,26 +76,26 @@ class Landing extends Component {
         <Row>
           <div>
           {(() => {
-              if(this.state.products) {
+              if(this.state.hotels) {
                 return <div className="row" style={{marginBottom:"50px", marginTop:"20px"}}><div className="col-md-5"></div><div className="col-md-4"><FuzzySearch
                     list={list}
-                    keys={['Product Name']}
+                    keys={["property_name"]}
                     width={430}
-                    onSelect={() => {console.log(this.state.products)}}
+                    onSelect={() => {console.log(this.state.hotels)}}
                     resultsTemplate={(props, state, styles, clickHandler) => {
                       return state.results.map((val, i) => {
                         const style = state.selectedIndex === i ? styles.selectedResultStyle : styles.resultsStyle;
                         return (
                           <div
                             style={style}
-                            onClick={() => window.location.replace("/product/"+val["Uniq Id"])}
+                            onClick={() => window.location.replace("/hotel/"+val["uniq_id"])}
                           >
                           <img
                             width="100"
                             height="100"
-                            src={val["Product Image Url"]}
+                            src={val["image_urls"]}
                           ></img>
-                            <p>{val["Product Name"]}</p>
+                            <p>{val["property_name"]}</p>
                           </div>
                         );
                       });
@@ -107,11 +109,11 @@ class Landing extends Component {
               sort={this.state.sort}
               handleChangeCategory={this.handleChangeCategory}
               handleChangeSort={this.handleChangeSort}
-              count={this.state.filteredProducts.length}
+              count={this.state.filteredHotels.length}
             />
             <hr />
-            <Products
-              products={this.state.filteredProducts}
+            <Hotels
+              hotels={this.state.filteredHotels}
               handleAddToCart={this.handleAddToCart}
               handleAddToWishlistt={this.handleAddToWishlist}
             />
