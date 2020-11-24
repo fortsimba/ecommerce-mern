@@ -5,6 +5,7 @@ import { LoginButton } from "./styles";
 import { NavDropdown } from "react-bootstrap";
 import axios from "axios";
 import "./styles.css";
+import { Link } from "react-router-dom";
 
 const Nav = () => {
   const [show, setShow] = useState(false);
@@ -28,15 +29,22 @@ const Nav = () => {
   return (
     <StyledNav className="nav_edits">
       <StyledNav.Brand className="mr-auto" href="/">
-        <h1>EYEKEA</h1>
+        <h1 className="logo">goHotels</h1>
         <p id="subtitle">
           <i>We prioritize your comfort.</i>
         </p>
       </StyledNav.Brand>
+      {/* <Link to="/">
+        <img
+          className="header_icon"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH6nlNdcKYq2ZM_oh8T3TTozUCz297xEuiXQ&usqp=CAU"
+          atl=""
+        />
+      </Link> */}
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
           <LoginButton size="lg" className="mr-auto" href="/landing">
-            View Products
+            View Hotels
           </LoginButton>
         </li>
 
