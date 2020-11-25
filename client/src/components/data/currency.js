@@ -1,5 +1,5 @@
 export default {
   formatCurrency: function (num) {
-    return "£" + Number(num.toFixed(2)).toLocaleString() + " ";
+    return "Rs " + Number(num.toFixed(2)).toLocaleString() + " ";
   },
 };

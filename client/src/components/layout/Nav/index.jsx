@@ -3,6 +3,7 @@ import { StyledNav } from "./styles";
 import SignupLoginModal from "../SignupLoginModal";
 import { LoginButton } from "./styles";
 import { NavDropdown } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import axios from "axios";
 import "./styles.css";
 import { Link } from "react-router-dom";
@@ -29,10 +30,16 @@ const Nav = () => {
   return (
     <StyledNav className="nav_edits">
       <StyledNav.Brand className="mr-auto" href="/">
-        <h1 className="logo">goHotels</h1>
-        <p id="subtitle">
+        <Row>
+          <img
+            className="logo_icon"
+            src="https://www.flaticon.com/premium-icon/icons/svg/3060/3060137.svg"
+          ></img>
+          <h1 className="logo">goHotels</h1>
+        </Row>
+        {/* <p id="subtitle">
           <i>We prioritize your comfort.</i>
-        </p>
+        </p> */}
       </StyledNav.Brand>
       {/* <Link to="/">
         <img

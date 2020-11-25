@@ -17,7 +17,7 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.banner_search {
+/* .banner_search {
   display: flex;
   flex-direction: column;
 }
@@ -27,7 +27,7 @@
   font-weight: 900 !important;
   text-transform: inherit !important;
   color: #ff7779 !important;
-}
+} */
 
 .banner_info > button {
   background-color: #ff7779;
