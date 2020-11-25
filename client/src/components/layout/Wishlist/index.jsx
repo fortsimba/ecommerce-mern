@@ -19,10 +19,10 @@ export default class Details extends Component {
       });
     });
     axios
-      .get("/api/products_import")
+      .get("/api/hotel_import")
       .then((res) => {
         this.setState({
-          products: res.data.products,
+          products: res.data.hotels,
         });
       })
       .then(() => {
@@ -32,7 +32,7 @@ export default class Details extends Component {
         var i, j;
         for (i = 0; i < this.state.wishlist.length; i++) {
           for (j = 0; j < this.state.products.length; j++) {
-            if (this.state.products[j]["Uniq Id"] == this.state.wishlist[i]) {
+            if (this.state.products[j]["uniq_id"] == this.state.wishlist[i]) {
               this.setState({
                 filteredProducts: this.state.filteredProducts.concat(
                   this.state.products[j]
@@ -40,6 +40,8 @@ export default class Details extends Component {
               });
             }
           }
+          console.log(this.state.filteredProducts)
+
         }
       });
   }
@@ -68,18 +70,6 @@ export default class Details extends Component {
         console.log(err);
       });
   }
-  addCart(product) {
-    this.removeWishlist(product);
-    var mode = "add";
-    axios
-      .post("/api/cart", { mode, user, product })
-      .then((res) => {
-        alert("Item moved to cart!");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
   render() {
     const productItems = this.state.filteredProducts.map((product) => (
       <div className="col-md-6">
@@ -89,7 +79,7 @@ export default class Details extends Component {
               <img
                 width="300"
                 height="300"
-                src={`${product["Product Image Url"]}`}
+                src={`${product["image_urls"]}`}
                 alt={product["Product Name"]}
               ></img>
               <p>{product["Product Name"]}</p>
@@ -97,17 +87,11 @@ export default class Details extends Component {
           </div>
 
           <div>
-            <b>{currency.formatCurrency(product["Product Price"])}</b>
-            <button
-              className="btn btn-info"
-              onClick={() => this.addCart(product["Uniq Id"])}
-            >
-              Move to cart
-            </button>
+            <b>{currency.formatCurrency(product["per_person_price"])}</b>
 
             <button
               className="btn btn-info"
-              onClick={() => this.removeWishlist(product["Uniq Id"])}
+              onClick={() => this.removeWishlist(product["uniq_id"])}
             >
               Remove Item
             </button>
