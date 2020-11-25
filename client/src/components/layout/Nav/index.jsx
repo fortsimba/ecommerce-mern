@@ -3,13 +3,15 @@ import { StyledNav } from "./styles";
 import SignupLoginModal from "../SignupLoginModal";
 import { LoginButton } from "./styles";
 import { NavDropdown } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import axios from "axios";
 import "./styles.css";
+import { Link } from "react-router-dom";
 
 const Nav = () => {
   const [show, setShow] = useState(false);
   const Dropdown = () => (
-    <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
+    <NavDropdown title="Welcome!" id="collapsible-nav-dropdown">
       <NavDropdown.Item href="/profile">My profile</NavDropdown.Item>
       <NavDropdown.Item href="/wishlist">Wishlist</NavDropdown.Item>
       <NavDropdown.Item href="/orders">Orders</NavDropdown.Item>
@@ -28,15 +30,28 @@ const Nav = () => {
   return (
     <StyledNav className="nav_edits">
       <StyledNav.Brand className="mr-auto" href="/">
-        <h1>EYEKEA</h1>
-        <p id="subtitle">
+        <Row>
+          <img
+            className="logo_icon"
+            src="https://www.flaticon.com/premium-icon/icons/svg/3060/3060137.svg"
+          ></img>
+          <h1 className="logo">goHotels</h1>
+        </Row>
+        {/* <p id="subtitle">
           <i>We prioritize your comfort.</i>
-        </p>
+        </p> */}
       </StyledNav.Brand>
+      {/* <Link to="/">
+        <img
+          className="header_icon"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH6nlNdcKYq2ZM_oh8T3TTozUCz297xEuiXQ&usqp=CAU"
+          atl=""
+        />
+      </Link> */}
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
           <LoginButton size="lg" className="mr-auto" href="/landing">
-            View Products
+            View Hotels
           </LoginButton>
         </li>
 

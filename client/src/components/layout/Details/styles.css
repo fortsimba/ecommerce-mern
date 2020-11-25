@@ -1,0 +1,23 @@
+.detail_img {
+  width: 600px;
+  height: 450px;
+  border-radius: 20px;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.hotel_overview {
+  margin-left: 80px;
+  margin-right: 80px;
+}
+
+.feature {
+  font-size:16px;
+  text-align:center;
+  color:#999999;
+  margin: 10px;
+}
+
+.alignCenter{
+  display:inline-flex !important;
+}

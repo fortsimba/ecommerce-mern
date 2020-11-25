@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import currency from "../../data/currency";
 import axios from "axios";
-
+import "./styles.css";
 const user = localStorage.getItem("token");
 export default class Details extends Component {
   constructor(props) {
@@ -19,10 +19,10 @@ export default class Details extends Component {
       });
     });
     axios
-      .get("/api/products_import")
+      .get("/api/hotel_import")
       .then((res) => {
         this.setState({
-          products: res.data.products,
+          products: res.data.hotels,
         });
       })
       .then(() => {
@@ -32,7 +32,7 @@ export default class Details extends Component {
         var i, j;
         for (i = 0; i < this.state.wishlist.length; i++) {
           for (j = 0; j < this.state.products.length; j++) {
-            if (this.state.products[j]["Uniq Id"] == this.state.wishlist[i]) {
+            if (this.state.products[j]["uniq_id"] == this.state.wishlist[i]) {
               this.setState({
                 filteredProducts: this.state.filteredProducts.concat(
                   this.state.products[j]
@@ -40,6 +40,7 @@ export default class Details extends Component {
               });
             }
           }
+          console.log(this.state.filteredProducts);
         }
       });
   }
@@ -61,20 +62,8 @@ export default class Details extends Component {
     axios
       .post("/api/wishlist", { mode, user, arr })
       .then((res) => {
-        alert("Item removed from wishlist!");
+        alert("Item removed from Saves!");
         window.location.reload(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  addCart(product) {
-    this.removeWishlist(product);
-    var mode = "add";
-    axios
-      .post("/api/cart", { mode, user, product })
-      .then((res) => {
-        alert("Item moved to cart!");
       })
       .catch((err) => {
         console.log(err);
@@ -87,27 +76,21 @@ export default class Details extends Component {
           <div>
             <Link to={`/product/${product["Uniq Id"]}`}>
               <img
-                width="300"
+                width="400"
                 height="300"
-                src={`${product["Product Image Url"]}`}
-                alt={product["Product Name"]}
+                src={`${product["image_urls"]}`}
+                alt={product["property_name"]}
               ></img>
-              <p>{product["Product Name"]}</p>
+              <p>{product["property_name"]}</p>
             </Link>
           </div>
 
           <div>
-            <b>{currency.formatCurrency(product["Product Price"])}</b>
-            <button
-              className="btn btn-info"
-              onClick={() => this.addCart(product["Uniq Id"])}
-            >
-              Move to cart
-            </button>
+            <b>{currency.formatCurrency(product["per_person_price"])}</b>
 
             <button
               className="btn btn-info"
-              onClick={() => this.removeWishlist(product["Uniq Id"])}
+              onClick={() => this.removeWishlist(product["uniq_id"])}
             >
               Remove Item
             </button>
@@ -117,12 +100,14 @@ export default class Details extends Component {
       </div>
     ));
     return (
-      <div style={{ marginLeft: "500px" }}>
-        <h1>Wishlist Items: </h1>
+      <div>
+        <br />
+        <h2>Saved for Later: </h2>
+        <hr />
         <br />
         {(() => {
           if (this.state.wishlist) {
-            return <div>{productItems}</div>;
+            return <div style={{ marginLeft: "450px" }}>{productItems}</div>;
           } else {
             return <p>No items in the wishlist!</p>;
           }

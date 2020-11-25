@@ -23,17 +23,17 @@ export default class Filter extends Component {
           </div>
           <div className="col-md-4">
             <label>
-              Filter Category
+              Filter by City
               <select
                 className="form-control"
                 value={this.props.category}
                 onChange={this.props.handleChangeCategory}
               >
                 <option value="">ALL</option>
-                <option value="Home Textiles">Home Textiles</option>
-                <option value="Home Decor">Home Decor</option>
-                <option value="Lighting">Lighting</option>
-                <option value="Bath">Bath</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Manali">Manali</option>
+                <option value="Udaipur">Udaipur</option>
               </select>
             </label>
           </div>
