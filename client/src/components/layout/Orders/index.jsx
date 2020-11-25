@@ -19,10 +19,10 @@ export default class Details extends Component {
       });
     });
     axios
-      .get("/api/products_import")
+      .get("/api/hotel_import")
       .then((res) => {
         this.setState({
-          products: res.data.products,
+          products: res.data.hotels,
         });
       })
       .then(() => {
@@ -32,7 +32,7 @@ export default class Details extends Component {
         var i, j;
         for (i = 0; i < this.state.orders.length; i++) {
           for (j = 0; j < this.state.products.length; j++) {
-            if (this.state.products[j]["Uniq Id"] == this.state.orders[i]) {
+            if (this.state.products[j]["uniq_id"] == this.state.orders[i]) {
               this.setState({
                 filteredProducts: this.state.filteredProducts.concat(
                   this.state.products[j]
@@ -48,31 +48,33 @@ export default class Details extends Component {
       <div className="col-md-6">
         <div className="thumbnail text-center">
           <div>
-            <Link to={`/product/${product["Uniq Id"]}`}>
+            <Link to={`/product/${product["uniq_id"]}`}>
               <img
                 width="300"
                 height="300"
-                src={`${product["Product Image Url"]}`}
-                alt={product["Product Name"]}
+                src={`${product["image_urls"]}`}
+                alt={product["property_name"]}
               ></img>
-              <p>{product["Product Name"]}</p>
+              <p>{product["property_name"]}</p>
             </Link>
           </div>
 
           <div>
-            <b>{currency.formatCurrency(product["Product Price"])}</b>
+            <b>{currency.formatCurrency(product["per_person_price"])}</b>
           </div>
         </div>
         <hr />
       </div>
     ));
     return (
-      <div style={{ marginLeft: "500px" }}>
-        <h1>Ordered Items: </h1>
+      <div>
+        <br />
+        <h2>Ordered Items: </h2>
+        <hr />
         <br />
         {(() => {
           if (this.state.orders) {
-            return <div>{productItems}</div>;
+            return <div style={{ marginLeft: "500px" }}>{productItems}</div>;
           } else {
             return <p>No items ordered yet!</p>;
           }

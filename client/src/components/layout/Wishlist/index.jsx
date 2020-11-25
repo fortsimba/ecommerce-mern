@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import currency from "../../data/currency";
 import axios from "axios";
-
+import "./styles.css";
 const user = localStorage.getItem("token");
 export default class Details extends Component {
   constructor(props) {
@@ -40,8 +40,7 @@ export default class Details extends Component {
               });
             }
           }
-          console.log(this.state.filteredProducts)
-
+          console.log(this.state.filteredProducts);
         }
       });
   }
@@ -63,7 +62,7 @@ export default class Details extends Component {
     axios
       .post("/api/wishlist", { mode, user, arr })
       .then((res) => {
-        alert("Item removed from wishlist!");
+        alert("Item removed from Saves!");
         window.location.reload(false);
       })
       .catch((err) => {
@@ -77,12 +76,12 @@ export default class Details extends Component {
           <div>
             <Link to={`/product/${product["Uniq Id"]}`}>
               <img
-                width="300"
+                width="400"
                 height="300"
                 src={`${product["image_urls"]}`}
-                alt={product["Product Name"]}
+                alt={product["property_name"]}
               ></img>
-              <p>{product["Product Name"]}</p>
+              <p>{product["property_name"]}</p>
             </Link>
           </div>
 
@@ -101,12 +100,14 @@ export default class Details extends Component {
       </div>
     ));
     return (
-      <div style={{ marginLeft: "500px" }}>
-        <h1>Wishlist Items: </h1>
+      <div>
+        <br />
+        <h2>Saved for Later: </h2>
+        <hr />
         <br />
         {(() => {
           if (this.state.wishlist) {
-            return <div>{productItems}</div>;
+            return <div style={{ marginLeft: "450px" }}>{productItems}</div>;
           } else {
             return <p>No items in the wishlist!</p>;
           }

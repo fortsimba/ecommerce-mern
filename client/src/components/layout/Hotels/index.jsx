@@ -41,7 +41,7 @@ export default class Hotels extends Component {
     axios
       .post("/api/wishlist", { mode, user, product })
       .then((res) => {
-        alert("Item added to wishlist!");
+        alert("Item saved for later!");
       })
       .catch((err) => {
         console.log(err);
@@ -76,8 +76,10 @@ export default class Hotels extends Component {
                     Add To Cart
                   </button> */}
                   <img
+                    // className="wishlist_button"
                     height="40"
                     className="btn btn-display"
+                    title="Save for Later"
                     onClick={() => this.addWishlist(hotel["uniq_id"])}
                     src="https://www.flaticon.com/svg/static/icons/svg/865/865904.svg"
                   ></img>
