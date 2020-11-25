@@ -55,6 +55,23 @@ app.get("/api/hotel_import", function(req, res){
   });
 });
 
+app.use("/api/auth", auth);
+app.get("/api/profile_import", function(req, res){
+  dbjs.users.findOne({"_id": mongojs.ObjectId(req.query.uid)}, async function(err, docs){
+    if(err) throw err;
+    await res.json(docs);
+  });
+  // MongoClient.connect(MONGO_URI, function(err, db) {
+  //       if (err) throw err;
+  //       db.db("ecommerce").collection("users").findOne({"_id": ObjectId(req.query.uid)},
+  //       async function(err, result) {
+  //           if (err) throw err;
+  //           await res.json(result);
+  //           db.close();
+  //       });
+  //   });
+});
+app.use("/api/profile_update", profile);
 app.get("/", (req, res) => res.send("Hello World!"));
 
 app.listen(PORT, () => console.log(`Backend listening on port ${PORT}!\n\n\n\n\n\n\n`));
