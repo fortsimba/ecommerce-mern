@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Row} from "react-bootstrap"
 import { Link } from "react-router-dom";
 import currency from "../../data/currency";
 import axios from "axios";
@@ -150,7 +151,7 @@ export default class Details extends Component {
       var avg = sum / ratings.length;
 
       if (what == "avg_ratings") {
-        return <h5>Our customers rated this product {avg}/5 </h5>;
+        return <h5>Our customers rated this Hotel {avg}/5 </h5>;
       } else if (what == "coms") {
         return (
           <div>
@@ -191,8 +192,9 @@ export default class Details extends Component {
 
           <h3>{htl["property_name"]}</h3>
           <h5>{htl["city"]}</h5>
-          <h6>{"Address: " + htl["property_address"]}</h6>
-          <h6>{"Rating: " + htl["mmt_review_score"]}</h6>
+          <h6>{"Address: " + htl["address"]}</h6>
+          <h6>{"Rating: " + htl["hotel_star_rating"]}</h6>
+          <h4>{currency.formatCurrency(htl["per_person_price"])}</h4>
           <hr />
           <br />
 
@@ -206,7 +208,7 @@ export default class Details extends Component {
               <br />
               <label for="room_type"> Room Type: </label> &ensp;
               <select id="room_type" name="room_type" required>
-                <option value="1">{htl["room_types"]}</option>
+                {htl["room_types"].map((object, i) => <option value={i}>{object}</option>)}
               </select>
               &emsp; &emsp;
               <label for="no_rooms"> Number of Rooms: </label> &ensp;
@@ -231,19 +233,27 @@ export default class Details extends Component {
             </form>
           </div>
           <hr />
-          <h6> Overview </h6>
+          <h5> Overview </h5>
           <p className="hotel_overview"> {htl["hotel_overview"]}</p>
 
-          <h6> Features </h6>
-          <p>{htl["in_your_room"]}</p>
-
-          <b>{currency.formatCurrency(htl["per_person_price"])}</b>
-          <button
-            className="btn btn-info"
-            onClick={() => this.addCart(htl["uniq_id"])}
+          <h5> Features </h5>
+          <br />
+          <h6><strong> Room </strong></h6>
+          <div class="alignCenter">
+          {htl["room"].map((object, i) => <p class="feature">{object}</p>)}
+          </div>
+          <br />
+          <h6><strong> Hotel </strong></h6>
+          <div class="alignCenter">
+          {htl["hotel"].map((object, i) => <p class="feature">{object}</p>)}
+          </div>
+          <br />
+          <a
+            class="btn btn-info"
+            href={`${htl["pageurl"]}`}
           >
-            Add To Cart
-          </button>
+            View Original Listing
+          </a>
 
           <img
             height="50"

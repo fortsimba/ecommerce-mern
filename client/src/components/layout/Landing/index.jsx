@@ -64,11 +64,9 @@ class Landing extends Component {
   }
 
   render() {
-    console.log(this.state.hotels);
     var list = this.state.hotels;
     if (this.state.hotels) {
       const list = this.state.hotels;
-      console.log(list);
     }
     return (
       <div>

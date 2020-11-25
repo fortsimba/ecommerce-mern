@@ -10,3 +10,14 @@
   margin-left: 80px;
   margin-right: 80px;
 }
+
+.feature {
+  font-size:16px;
+  text-align:center;
+  color:#999999;
+  margin: 10px;
+}
+
+.alignCenter{
+  display:inline-flex !important;
+}

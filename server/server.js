@@ -95,6 +95,24 @@ app.route("/api/wishlist").post((req,res,next) => {
   });
 })
 
+app.route("/api/details").post((req , res ) => {
+        dbjs.comments.update({'_id': req.body.product} ,{ $push: {
+            'name': req.body.inp_name,
+            'rate': req.body.inp_rating,
+            'comment': req.body.inp_comment}},
+          { upsert : true })
+          dbjs.on('error', function(err){
+            return res.status(400).json({errors:"Database error! Records not updated"})
+          })
+        return res.status(200).json({success:"Succesfully updated records!"})
+
+  }).get(function( req , res ) {
+    dbjs.comments.find({_id: req.query._id}, async function(err, docs){
+      if(err) throw err;
+      await res.json(docs);
+    });
+  })
+
 app.get("/", (req, res) => res.send("Hello World!"));
 
 app.listen(PORT, () => console.log(`Backend listening on port ${PORT}!\n\n\n\n\n\n\n`));

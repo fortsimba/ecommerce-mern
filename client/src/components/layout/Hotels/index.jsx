@@ -50,7 +50,6 @@ export default class Hotels extends Component {
   render() {
     const hotels = this.props.hotels.map(
       (hotel) => (
-        console.log(hotel),
         (
           <div className="col-md-4" key={hotel["uniq_id"]}>
             <div className="thumbnail text-center product_component">
@@ -86,8 +85,7 @@ export default class Hotels extends Component {
                 </div>
                 <h4 className="hotel_info">
                   {hotel["hotel_star_rating"] +
-                    " ◉ Rating: " +
-                    hotel["mmt_review_score"]}
+                    " ☆ Rating: "}
                 </h4>
               </div>
             </div>
